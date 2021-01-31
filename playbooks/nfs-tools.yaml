@@ -1,0 +1,8 @@
+---
+- hosts: cluster
+  become: true
+  tasks:
+    - name: install nfs tools
+      apt:
+        name: libnfs-utils
+        state: present

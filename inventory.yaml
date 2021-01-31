@@ -1,0 +1,18 @@
+all:
+  hosts:
+   jasmine:
+    ansible_host: 192.168.0.101
+   ariel:
+    ansible_host: 192.168.0.102
+   belle:
+    ansible_host: 192.168.0.103
+   aurora:
+    ansible_host: 192.168.0.104
+
+  children:
+    cluster:
+      hosts:
+        jasmine: {}
+        ariel: {}
+        belle: {}
+        aurora: {}

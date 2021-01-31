@@ -1,0 +1,9 @@
+---
+- hosts: cluster
+  become: true
+  tasks:
+    - name: turn swap off
+      shell: >
+        dphys-swapfile swapoff &&
+        dphys-swapfile uninstall &&
+        update-rc.d -f dphys-swapfile remove
