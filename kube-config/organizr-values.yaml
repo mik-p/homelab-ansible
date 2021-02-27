@@ -1,0 +1,19 @@
+
+imagePullSecrets: []
+fullnameOverride: organizr
+  
+env:
+  TZ: "Australia/Sydney"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: organizr.service.homelab
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi

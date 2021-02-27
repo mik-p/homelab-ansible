@@ -9,8 +9,14 @@ run playbook
 ansible-playbook -K -i inventory.yaml <playbook>
 ```
 
+restart cluster
+
+```bash
+ansible cluster -K -i inventory.yaml -a "reboot" -b
+```
+
 Shutdown cluster
 
 ```bash
-ansible cluster -i inventory.yml -a "shutdown -h now" -b
+ansible cluster -K -i inventory.yaml -a "shutdown -h now" -b
 ```

@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-server-pi
+  annotations:
+    kubesailEditorUid: 1268d9dd-d59b-4d10-b58b-3a2b6dd7a74e
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      volumes:
+        - name: world
+          persistentVolumeClaim:
+            claimName: minecraft-world
+      containers:
+        - name: minecraft
+          image: joycelin79/cuberite
+          tty: true
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: world
+              mountPath: /app/cuberite/build-cuberite/Server/world
+              subPath: world
+            - name: world
+              mountPath: /app/cuberite/build-cuberite/Server/world_nether
+              subPath: world_nether
+            - name: world
+              mountPath: /app/cuberite/build-cuberite/Server/world_the_end
+              subPath: world_the_end
+            - name: world
+              mountPath: /app/cuberite/build-cuberite/Server/players
+              subPath: players
+          ports:
+            - name: game-port
+              containerPort: 25565
+              hostPort: 25565
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 1
+              memory: 2Gi
+          env:
+            - name: EULA
+              value: "TRUE"
+            - name: TYPE
+              value: PAPER
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minecraft-world
+  labels:
+    app: minecraft
+  annotations:
+    kubesailEditorUid: f79c491c-af04-4cb6-ba63-bcd4374ef56b
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

@@ -6,3 +6,7 @@
       apt:
         name: libnfs-utils
         state: present
+    - name: install nfs storage mount helper
+      apt:
+        name: nfs-common
+        state: present
